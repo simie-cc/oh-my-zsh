@@ -1,0 +1,93 @@
+set nocompatible
+""""""""""""""""""""""""""""""""""" Vundle config start
+"filetype off
+
+"" vundle settings
+"set rtp+=$HOME/vimfiles/bundle/Vundle.vim/
+"call vundle#begin('$HOME/vimfiles/bundle/')
+
+"" let Vundle manage Vundle, required
+"Plugin 'VundleVim/Vundle.vim'
+
+"Plugin 'vim-airline/vim-airline'
+"Plugin 'vim-airline/vim-airline-themes'
+
+"call vundle#end()            " required
+"filetype plugin indent on    " required
+
+""""""""""""""""""""""""""""""""""" Vundle config end
+
+source $VIMRUNTIME/vimrc_example.vim
+source $VIMRUNTIME/mswin.vim
+behave mswin
+
+set diffexpr=MyDiff()
+ function MyDiff()
+   let opt = '-a --binary '
+   if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+   if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+   let arg1 = v:fname_in
+   if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+   let arg2 = v:fname_new
+   if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+   let arg3 = v:fname_out
+   if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+   if $VIMRUNTIME =~ ' '
+     if &sh =~ '\<cmd'
+       if empty(&shellxquote)
+         let l:shxq_sav = ''
+         set shellxquote&
+       endif
+       let cmd = '"' . $VIMRUNTIME . '\diff"'
+     else
+       let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+     endif
+   else
+     let cmd = $VIMRUNTIME . '\diff'
+   endif
+   silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3
+   if exists('l:shxq_sav')
+     let &shellxquote=l:shxq_sav
+   endif
+ endfunction
+
+" Personal Settings!
+colorscheme torte
+set nu
+set ts=4
+set sw=4
+set expandtab
+set nowrap
+set nobackup
+set noswapfile
+set ignorecase
+
+set fileencodings=utf-8,big5,euc-jp,gbk,euc-kr,utf-bom,iso8859-1
+"set encoding=utf-8
+command! Filter execute 'normal! 0"ay0' | execute 'g//y A' | split | enew | setlocal bt=nofile | put! a
+
+function! Foldlogfile(lnum)
+	if getline(a:lnum) =~ '^\d\{4\}-\d\{2\}-\d\{2\} .*'
+		return '0'
+	else 
+		return '1'
+	endif
+endfunction
+command! Foldlog set foldmethod=expr | set foldexpr=Foldlogfile(v:lnum) | set foldcolumn=3 | foldc!
+command! Utf8 set encoding=utf-8
+
+highlight Folded     guifg=#8080FF   guibg=Black
+highlight FoldColumn guifg=#8080FF   guibg=Black
+
+vnoremap // y/<C-R>"<CR>
+
+" no undo file
+set noundofile
+
+"set rtp+='C:/Python27/Lib/site-packages/powerline/bindings/vim/'
+"python from powerline.vim import setup as powerline_setup
+"python powerline_setup()
+"python del powerline_setup
+
+"Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+"call vam#ActivateAddons(['powerline'])
