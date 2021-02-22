@@ -12,20 +12,23 @@ else
 fi
 
 NEWLINE=$'\n'
+PROMPT_SPLITTER='❫'
 
 PROMPT="\
 %{$PROMPT_USER_COLOR%}%n\
 %{$fg[white]%}@\
 %{$PROMPT_HOST_COLOR%}%m\
-%{$fg[white]%} ⟩ \
+%{$fg[white]%} $PROMPT_SPLITTER \
 %{$fg_bold[green]%}%~ \
 %{$fg[cyan]%}%v$NEWLINE\
 %{$fg[yellow]%}$ %{$reset_color%}"
 
-#ZSH_THEME_GIT_PROMPT_PREFIX="git:(%{$fg[red]%}"
-#ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-#ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗%{$reset_color%}"
-#ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
+#%{$fg[white]%} ⟩ \
+
+ZSH_THEME_GIT_PROMPT_PREFIX="git:(%{$fg[red]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
 
 ZSH_THEME_TERM_TITLE_IDLE='%~'
 
